@@ -1,5 +1,7 @@
 package com.openclassrooms.tourguide.service;
 
+import com.openclassrooms.tourguide.dto.NearestAttractionDTO;
+import com.openclassrooms.tourguide.geo.GeoUtils;
 import com.openclassrooms.tourguide.helper.InternalTestHelper;
 import com.openclassrooms.tourguide.tracker.Tracker;
 import com.openclassrooms.tourguide.user.User;
@@ -8,11 +10,13 @@ import com.openclassrooms.tourguide.user.UserReward;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -95,15 +99,25 @@ public class TourGuideService {
 		return visitedLocation;
 	}
 
-	public List<Attraction> getNearByAttractions(VisitedLocation visitedLocation) {
-		List<Attraction> nearbyAttractions = new ArrayList<>();
-		for (Attraction attraction : gpsUtil.getAttractions()) {
-			if (rewardsService.isWithinAttractionProximity(attraction, visitedLocation.location)) {
-				nearbyAttractions.add(attraction);
-			}
+	public List<NearestAttractionDTO> getNearByAttractions(String userName, int limit) {
+		if(limit <= 0) limit = 5;
+
+		User user = getUser(userName);
+		Location lastLocation = getUserLocation(user).location;
+
+		List<Attraction> attractions = List.copyOf(gpsUtil.getAttractions());
+
+		PriorityQueue<NearestAttractionDTO> pq = new PriorityQueue<>(Comparator.comparingDouble(NearestAttractionDTO::getDistance).reversed());
+
+		for(Attraction attraction : attractions) {
+			double distance = GeoUtils.getDistance(attraction, lastLocation);
+			pq.offer(new NearestAttractionDTO(attraction, distance, rewardsService.getRewardPoints(attraction, user)));
+			if(pq.size() > limit) pq.poll();
 		}
 
-		return nearbyAttractions;
+		List<NearestAttractionDTO> result = new ArrayList<>(pq);
+		result.sort(Comparator.comparingDouble(NearestAttractionDTO::getDistance));
+		return result;
 	}
 
 	private void addShutDownHook() {
