@@ -1,0 +1,21 @@
+[versions]
+gpsutil-gpsutil = "1.0.0"
+org-apache-commons-commons-lang3 = "3.18.0"
+org-junit-jupiter-junit-jupiter-api = "5.12.2"
+org-springframework-boot-spring-boot-starter-actuator = "3.5.5"
+org-springframework-boot-spring-boot-starter-test = "3.5.5"
+org-springframework-boot-spring-boot-starter-validation = "3.5.5"
+org-springframework-boot-spring-boot-starter-web = "3.5.5"
+rewardcentral-rewardcentral = "1.0.0"
+trippricer-trippricer = "1.0.0"
+
+[libraries]
+gpsutil-gpsutil = { module = "gpsUtil:gpsUtil", version.ref = "gpsutil-gpsutil" }
+org-apache-commons-commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "org-apache-commons-commons-lang3" }
+org-junit-jupiter-junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "org-junit-jupiter-junit-jupiter-api" }
+org-springframework-boot-spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator", version.ref = "org-springframework-boot-spring-boot-starter-actuator" }
+org-springframework-boot-spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "org-springframework-boot-spring-boot-starter-test" }
+org-springframework-boot-spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation", version.ref = "org-springframework-boot-spring-boot-starter-validation" }
+org-springframework-boot-spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "org-springframework-boot-spring-boot-starter-web" }
+rewardcentral-rewardcentral = { module = "rewardCentral:rewardCentral", version.ref = "rewardcentral-rewardcentral" }
+trippricer-trippricer = { module = "tripPricer:tripPricer", version.ref = "trippricer-trippricer" }

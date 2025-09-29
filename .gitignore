@@ -1,9 +1,15 @@
+# IntelliJ
 .idea/
 *.iml
 
+# Mavan
 /target/
 out/
 
-*.log
+# Gradle
+.gradle/
+build/
 
+# Etc.
+*.log
 .env
