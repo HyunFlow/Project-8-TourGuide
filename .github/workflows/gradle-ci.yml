@@ -1,0 +1,49 @@
+name: Tourguide CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions: 
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - uses: gradle/actions/setup-gradle@v4
+     
+      - run: chmod +x gradlew
+      
+      - name: Compile
+        run: ./gradlew compileJava
+      - name: Test
+        run: ./gradlew test
+      - name: Package
+        run: ./gradlew assemble
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: project-8-tourguide
+          path: '**/build/libs/*.jar'
+
+  dependency-submission:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Generate and submit dependency graph
+      uses: gradle/actions/dependency-submission@v4
