@@ -41,12 +41,12 @@ public class TourGuideController {
     }
     
     @GetMapping("/users/{userName}/rewards")
-    public List<UserReward> getRewards(@RequestParam String userName) {
+    public List<UserReward> getRewards(@PathVariable String userName) {
     	return tourGuideService.getUserRewards(getUser(userName));
     }
        
     @GetMapping("/users/{userName}/tripDeals")
-    public List<Provider> getTripDeals(@RequestParam String userName) {
+    public List<Provider> getTripDeals(@PathVariable String userName) {
     	return tourGuideService.getTripDeals(getUser(userName));
     }
     
